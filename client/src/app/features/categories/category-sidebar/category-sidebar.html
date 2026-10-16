@@ -1,0 +1,89 @@
+<nav class="flex h-full w-full flex-col bg-white md:w-64">
+  <ul class="flex-1 overflow-y-auto py-2">
+    <li>
+      <button
+        type="button"
+        class="flex w-full items-center gap-3 px-4 py-2 text-left text-sm hover:bg-gray-100"
+        [class]="selectedId() === null ? 'bg-brand-light font-semibold text-brand' : ''"
+        (click)="select.emit(null)"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        All tasks
+      </button>
+    </li>
+
+    <li class="mx-4 my-2 border-t border-gray-200"></li>
+
+    @for (category of categories(); track category.id) {
+      <li class="group relative">
+        @if (editingId() === category.id) {
+          <!-- Inline rename: Enter saves, Escape cancels -->
+          <div class="px-3 py-1">
+            <input
+              #editInput
+              type="text"
+              class="input py-1"
+              [formControl]="editName"
+              (keydown.enter)="saveEdit(category)"
+              (keydown.escape)="cancelEdit()"
+              (blur)="saveEdit(category)"
+              aria-label="Category name"
+            />
+          </div>
+        } @else {
+          <button
+            type="button"
+            class="flex w-full items-center gap-3 px-4 py-2 pr-16 text-left text-sm hover:bg-gray-100"
+            [class]="selectedId() === category.id ? 'bg-brand-light font-semibold text-brand' : ''"
+            (click)="select.emit(category.id)"
+          >
+            <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <span class="truncate">{{ category.name }}</span>
+          </button>
+
+          <div class="absolute top-1/2 right-2 flex -translate-y-1/2 gap-1 opacity-0 group-hover:opacity-100">
+            <button
+              type="button"
+              class="rounded p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-700"
+              aria-label="Rename category"
+              (click)="startEdit(category)"
+            >
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6.232-6.232a2.5 2.5 0 113.536 3.536L12.536 16.536 9 17l.464-3.536z" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="rounded p-1 text-gray-400 hover:bg-red-50 hover:text-red-600"
+              aria-label="Delete category"
+              (click)="remove.emit(category)"
+            >
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        }
+      </li>
+    }
+  </ul>
+
+  <div class="flex items-center gap-2 border-t border-gray-200 px-4 py-3">
+    <svg class="h-5 w-5 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+    </svg>
+    <input
+      type="text"
+      class="w-full bg-transparent text-sm text-brand outline-none placeholder:text-brand"
+      placeholder="New list"
+      maxlength="50"
+      [formControl]="newCategory"
+      (keydown.enter)="addCategory()"
+      aria-label="New category name"
+    />
+  </div>
+</nav>

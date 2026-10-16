@@ -1,0 +1,35 @@
+@import 'tailwindcss';
+
+/* Design tokens: Tailwind v4 turns these variables into utility classes (bg-brand, text-brand, font-sans...). */
+@theme {
+  --font-sans: 'Segoe UI', ui-sans-serif, system-ui, sans-serif;
+  --color-brand: #2564cf;
+  --color-brand-dark: #1e4fa8;
+  --color-brand-light: #eff6fc;
+}
+
+body {
+  @apply bg-[#faf9f8] font-sans text-gray-800 antialiased;
+}
+
+/* Small reusable classes, so templates don't repeat long lists of utilities. */
+@layer components {
+  .input {
+    @apply w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm outline-none transition
+      focus:border-brand focus:ring-2 focus:ring-brand/20;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-md bg-brand px-4 py-2 text-sm font-semibold text-white
+      transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm
+      font-medium text-gray-700 transition hover:bg-gray-50;
+  }
+
+  .field-error {
+    @apply mt-1 text-xs text-red-600;
+  }
+}

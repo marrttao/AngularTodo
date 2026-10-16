@@ -1,0 +1,33 @@
+@if (totalPages() > 1) {
+  <nav class="flex items-center justify-center gap-1" aria-label="Pagination">
+    <button
+      type="button"
+      class="rounded-md px-3 py-1.5 text-sm text-gray-600 hover:bg-white disabled:opacity-40 disabled:hover:bg-transparent"
+      [disabled]="page() === 1"
+      (click)="goTo(page() - 1)"
+    >
+      ‹ Prev
+    </button>
+
+    @for (p of pages(); track p) {
+      <button
+        type="button"
+        class="h-8 min-w-8 rounded-md px-2 text-sm"
+        [class]="p === page() ? 'bg-brand font-semibold text-white' : 'text-gray-700 hover:bg-white'"
+        [attr.aria-current]="p === page() ? 'page' : null"
+        (click)="goTo(p)"
+      >
+        {{ p }}
+      </button>
+    }
+
+    <button
+      type="button"
+      class="rounded-md px-3 py-1.5 text-sm text-gray-600 hover:bg-white disabled:opacity-40 disabled:hover:bg-transparent"
+      [disabled]="page() === totalPages()"
+      (click)="goTo(page() + 1)"
+    >
+      Next ›
+    </button>
+  </nav>
+}
