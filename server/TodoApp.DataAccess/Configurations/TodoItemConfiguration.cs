@@ -14,6 +14,11 @@ public class TodoItemConfiguration : IEntityTypeConfiguration<TodoItem>
         builder.Property(t => t.Title).IsRequired().HasMaxLength(200);
         builder.Property(t => t.Description).HasMaxLength(2000);
 
+        // We always save UTC, but SQL Server's datetime2 doesn't store the "kind" of a DateTime.
+        // This converter marks values read from the database as UTC, so JSON gets a "Z" suffix.
+        builder.Property(t => t.CreatedAt)
+            .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+
         // One user -> many tasks. Deleting a user deletes their tasks.
         builder.HasOne(t => t.User)
             .WithMany(u => u.Tasks)
