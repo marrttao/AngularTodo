@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TodoApp.Services\TodoApp.Services.csproj" />
+    <ProjectReference Include="..\TodoApp.DataAccess\TodoApp.DataAccess.csproj" />
+    <ProjectReference Include="..\TodoApp.Interfaces\TodoApp.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>
